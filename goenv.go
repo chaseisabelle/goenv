@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 )
 
 func Exists(key string) bool {
@@ -88,4 +89,26 @@ func Float64(key string, def float64) (float64, error) {
 
 func Bytes(key string, def []byte) []byte {
 	return []byte(String(key, string(def)))
+}
+
+func Duration(key string, def int, as time.Duration) (time.Duration, error) {
+	i, err := Int(key, def)
+
+	return time.Duration(i) * as, err
+}
+
+func Millisecond(key string, def int) (time.Duration, error) {
+	return Duration(key, def, time.Millisecond)
+}
+
+func Second(key string, def int) (time.Duration, error) {
+	return Duration(key, def, time.Second)
+}
+
+func Minute(key string, def int) (time.Duration, error) {
+	return Duration(key, def, time.Minute)
+}
+
+func Hour(key string, def int) (time.Duration, error) {
+	return Duration(key, def, time.Hour)
 }
